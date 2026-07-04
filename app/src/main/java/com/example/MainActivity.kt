@@ -825,12 +825,7 @@ fun LyraPresenceCard(viewModel: HomeViewModel) {
                     color = TextPrimary
                 )
 
-                val modeLabel = when (viewModel.aiMode) {
-                    "LOW_LATENCY" -> "FLASH LITE • ULTRA SNAPPY LATENCY"
-                    "DEEP_THINKING" -> "HIGH REASONING ACTIVE • DEEP THOUGHT"
-                    "GROUNDED" -> "GROUNDED COGNITION • GOOGLE SEARCH"
-                    else -> "STANDARD CORE • INTEGRATED ECOSYSTEM"
-                }
+                val modeLabel = "STANDARD CORE • INTEGRATED ECOSYSTEM"
 
                 Text(
                     text = modeLabel,
@@ -1787,133 +1782,6 @@ fun ConfigScreen(viewModel: HomeViewModel, chatMessages: List<ChatMessageEntity>
                                 modifier = Modifier.size(16.dp)
                             )
                         }
-                    }
-                }
-
-                HorizontalDivider(color = BorderWhite, thickness = 1.dp)
-
-                // High-End AI Mode Selector Tab Bar
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 8.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White.copy(alpha = 0.02f), RoundedCornerShape(24.dp))
-                            .padding(2.dp),
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        val modes = listOf(
-                            "STANDARD" to "Balanced",
-                            "LOW_LATENCY" to "Lite",
-                            "DEEP_THINKING" to "High Think",
-                            "GROUNDED" to "Search",
-                            "LIVE_API" to "Live",
-                            "OFFLINE_LOCAL" to "Local"
-                        )
-                        
-                        modes.forEach { (modeKey, modeLabel) ->
-                            val isSelected = viewModel.aiMode == modeKey
-                            val activeColor = when (modeKey) {
-                                "LOW_LATENCY" -> IndigoGlow
-                                "DEEP_THINKING" -> PurpleGlow
-                                "GROUNDED" -> CyanAccent
-                                "LIVE_API" -> Pink80
-                                "OFFLINE_LOCAL" -> Color.Gray
-                                else -> EmeraldGreen
-                            }
-                            
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .height(28.dp)
-                                    .clip(RoundedCornerShape(10.dp))
-                                    .background(
-                                        if (isSelected) activeColor.copy(alpha = 0.12f) else Color.Transparent
-                                    )
-                                    .border(
-                                        width = if (isSelected) 1.dp else 0.dp,
-                                        color = if (isSelected) activeColor.copy(alpha = 0.25f) else Color.Transparent,
-                                        shape = RoundedCornerShape(10.dp)
-                                    )
-                                    .clickable { viewModel.setAiModeAndPersist(modeKey) }
-                                    .testTag("ai_mode_${modeKey.lowercase()}"),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    val icon = when (modeKey) {
-                                        "LOW_LATENCY" -> Icons.Default.Bolt
-                                        "DEEP_THINKING" -> Icons.Default.Psychology
-                                        "GROUNDED" -> Icons.Default.Language
-                                        "LIVE_API" -> Icons.Default.Stream
-                                        "OFFLINE_LOCAL" -> Icons.Default.WifiOff
-                                        else -> Icons.Default.Memory
-                                    }
-                                    Icon(
-                                        imageVector = icon,
-                                        contentDescription = null,
-                                        tint = if (isSelected) activeColor else TextSecondary,
-                                        modifier = Modifier.size(12.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                    Text(
-                                        text = modeLabel,
-                                        fontSize = 10.sp,
-                                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.SemiBold,
-                                        color = if (isSelected) activeColor else TextSecondary
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    // A brief futuristic status description line for the active mode
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 4.dp, start = 4.dp, end = 4.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        val (modeTitle, modeDesc) = when (viewModel.aiMode) {
-                            "LOW_LATENCY" -> "Flash Lite Core" to "Optimized for sub-second, ultra-snappy home controls"
-                            "DEEP_THINKING" -> "High Thinking Core" to "Deep reasoning enabled. Solves complex automation & rules"
-                            "GROUNDED" -> "Search Grounded Core" to "Accesses live web search data for up-to-date information"
-                            "LIVE_API" -> "Live Conversation API" to "Real-time streaming integration with gemini-3.1-flash-live-preview"
-                            "OFFLINE_LOCAL" -> "Offline Local Execution" to "Runs entirely on-device for basic fallback reasoning"
-                            else -> "Standard Gemini Core" to "Balanced intelligence & versatility for general queries"
-                        }
-                        
-                        val activeColor = when (viewModel.aiMode) {
-                            "LOW_LATENCY" -> IndigoGlow
-                            "DEEP_THINKING" -> PurpleGlow
-                            "GROUNDED" -> CyanAccent
-                            "LIVE_API" -> Pink80
-                            "OFFLINE_LOCAL" -> Color.Gray
-                            else -> EmeraldGreen
-                        }
-
-                        Text(
-                            text = modeTitle.uppercase(),
-                            fontSize = 8.sp,
-                            fontFamily = FontFamily.Monospace,
-                            fontWeight = FontWeight.Bold,
-                            color = activeColor
-                        )
-                        Text(
-                            text = modeDesc,
-                            fontSize = 8.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = TextSecondary,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
                     }
                 }
 
